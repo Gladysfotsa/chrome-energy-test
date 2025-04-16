@@ -1,0 +1,36 @@
+---
+name: Google Chrome Energy Benchmark
+author: Gladysfotsa <gladysfotsa99@gmail.com>
+description: Headless Google Chrome container for benchmarking with the Green Metrics Tool
+
+architecture: Linux
+
+networks:
+  chrome-network:
+
+services:
+  chrome-container:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: chrome-container
+    image: chrome_energy_image
+    expose:
+      - 9222
+    networks:
+      - chrome-network
+    setup-commands:
+      - sleep 10
+    command: /usr/local/bin/chrome-entry.sh
+
+flow:
+  - name: Idle Chrome Test
+    container: chrome-container
+    commands:
+      - type: console
+        command: echo "Chrome launched and idling"
+        note: Chrome container started
+        log-stdout: true
+      - type: console
+        command: sleep 30
+        note: Idling for 30 seconds
