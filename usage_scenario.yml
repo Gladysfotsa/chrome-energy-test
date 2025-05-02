@@ -1,36 +1,23 @@
 ---
-name: Google Chrome Energy Benchmark
+name: Chrome - CNN
 author: Gladysfotsa <gladysfotsa99@gmail.com>
-description: Headless Google Chrome container for benchmarking with the Green Metrics Tool
+description: Benchmarking Chrome loading CNN.com in headless mode
 
 architecture: Linux
 
-networks:
-  chrome-network:
-
 services:
   chrome-container:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: chrome-container
-    image: chrome_energy_image
-    expose:
-      - 9222
-    networks:
-      - chrome-network
-    setup-commands:
-      - sleep 10
+    image: yourdockerhubusername/chrome-container
+    environment:
+      URL_TO_VISIT: "https://www.cnn.com"
     command: /usr/local/bin/chrome-entry.sh
 
 flow:
-  - name: Idle Chrome Test
+  - name: Load CNN.com in Chrome
     container: chrome-container
     commands:
       - type: console
-        command: echo "Chrome launched and idling"
-        note: Chrome container started
-        log-stdout: true
+        command: echo "Opening CNN.com..."
       - type: console
         command: sleep 30
-        note: Idling for 30 seconds
+        note: Wait for Chrome to load and render the page
