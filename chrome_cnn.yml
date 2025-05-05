@@ -1,0 +1,23 @@
+---
+name: Chrome - CNN
+author: Gladysfotsa <gladysfotsa99@gmail.com>
+description: Benchmarking Chrome loading CNN.com in headless mode
+
+architecture: Linux
+
+services:
+  chrome-container:
+    image: gladysfotsa/chrome_energy_image  
+    environment:
+      URL_TO_VISIT: "https://www.cnn.com"
+    command: /usr/local/bin/chrome-entry.sh
+
+flow:
+  - name: Load CNN.com in Chrome
+    container: chrome-container
+    commands:
+      - type: console
+        command: echo "Opening CNN.com..."
+      - type: console
+        command: sleep 30
+        note: Wait for Chrome to load and render the page
